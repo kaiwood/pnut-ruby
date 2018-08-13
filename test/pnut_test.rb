@@ -30,4 +30,9 @@ class PnutTest < Minitest::Test
     assert_equal @parsed_api_response["meta"]["code"], response.meta.code
     assert_equal @parsed_api_response["data"][0]["id"], response.data[0].id
   end
+
+  def test_that_it_can_give_raw_responses_back
+    assert_instance_of Array, @pnut.request("/posts/streams/global").data
+    assert_instance_of String, @pnut.request("/posts/streams/global", raw_response: true)
+  end
 end

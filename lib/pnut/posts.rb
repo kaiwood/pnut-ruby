@@ -1,5 +1,5 @@
 module Posts
   def global
-    self.get("/posts/streams/global")
+    self.request("/posts/streams/global")
   end
 end

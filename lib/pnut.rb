@@ -12,9 +12,14 @@ module Pnut
       @connection = Faraday.new("https://api.pnut.io/")
     end
 
-    def get(endpoint)
+    def request(endpoint, raw_response: false)
       response = @connection.get("/v0#{endpoint}")
-      JSON.parse(response.body, object_class: OpenStruct)
+
+      if raw_response
+        response.body
+      else
+        JSON.parse(response.body, object_class: OpenStruct)
+      end
     end
   end
 end
