@@ -9,7 +9,7 @@ Gem::Specification.new do |spec|
   spec.authors = ["Kai Wood"]
   spec.email = ["kwood@kwd.io"]
 
-  spec.summary = %q{Convenient wrapper library around the [pnut.io](https://pnut.io) API}
+  spec.summary = %q{Convenient wrapper library around the pnut.io API}
   spec.homepage = "https://github.com/kaiwood/pnut-ruby"
   spec.license = "MIT"
 
