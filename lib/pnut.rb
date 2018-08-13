@@ -14,7 +14,7 @@ module Pnut
       @connection = Faraday.new("https://api.pnut.io/")
     end
 
-    def request(endpoint, params: nil, raw_response: false)
+    def request(endpoint, method: "GET", params: nil, data: nil, raw_response: false)
       prepared_endpoint = "/v0#{endpoint}"
 
       if params
@@ -23,11 +23,12 @@ module Pnut
         prepared_endpoint += "?#{uri.query}"
       end
 
-      response = @connection.get(prepared_endpoint) do |req|
+      response = @connection.send(method.downcase.to_sym, prepared_endpoint) do |req|
         req.url prepared_endpoint
-        if @token
-          req.headers["Authorization"] = "Bearer #{@token}"
-        end
+        req.headers["Content-Type"] = "application/json"
+
+        req.headers["Authorization"] = "Bearer #{@token}" if @token
+        req.body = data.to_json if data
       end
 
       raw_response ? response.body : JSON.parse(response.body, object_class: OpenStruct)
