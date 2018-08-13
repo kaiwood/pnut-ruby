@@ -9,7 +9,8 @@ module Pnut
   class Client
     include Posts
 
-    def initialize
+    def initialize(authorization_token: nil)
+      @token = authorization_token
       @connection = Faraday.new("https://api.pnut.io/")
     end
 
@@ -22,7 +23,12 @@ module Pnut
         prepared_endpoint += "?#{uri.query}"
       end
 
-      response = @connection.get(prepared_endpoint)
+      response = @connection.get(prepared_endpoint) do |req|
+        req.url prepared_endpoint
+        if @token
+          req.headers["Authorization"] = "Bearer #{@token}"
+        end
+      end
 
       raw_response ? response.body : JSON.parse(response.body, object_class: OpenStruct)
     end
