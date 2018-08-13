@@ -26,11 +26,7 @@ module Pnut
 
       response = @connection.get(prepared_endpoint)
 
-      if raw_response
-        response.body
-      else
-        JSON.parse(response.body, object_class: OpenStruct)
-      end
+      raw_response ? response.body : JSON.parse(response.body, object_class: OpenStruct)
     end
   end
 end
