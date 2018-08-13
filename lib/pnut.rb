@@ -5,8 +5,6 @@ require "json"
 require "ostruct"
 require "addressable/uri"
 
-uri = Addressable::URI.new
-
 module Pnut
   class Client
     include Posts
