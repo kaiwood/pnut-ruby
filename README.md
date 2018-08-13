@@ -1,8 +1,6 @@
-# Pnut
+# pnut
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/pnut`. To experiment with that code, run `bin/console` for an interactive prompt.
-
-TODO: Delete this and the text above, and describe your gem
+Convenient wrapper library around the [pnut.io](https://pnut.io) API for Ruby.
 
 ## Installation
 
@@ -22,7 +20,37 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+The goal of the project is to provide a convenient method for every possible endpoint. For example, if you want to fetch the global timeline and get back an array containing "meta" and "data" as described in the [official documentation of the pnut.io API](https://pnut.io/docs/api/implementation/overview):
+
+```ruby
+require "pnut"
+
+pnut = Pnut::Client.new
+pnut.global
+```
+
+Check the docs for an overview to all implemented methods.
+
+If we didn't implement an endpoint yet, you can use the `request` method to send custom requests:
+
+```ruby
+require "pnut"
+
+pnut = Pnut::Client.new
+pnut.request("/posts/streams/global")
+```
+
+```ruby
+require "pnut"
+
+pnut.request(
+  "/channels/123/messages",
+  method: "POST",
+  data: {
+    text: "Der Test[tm]"
+  }
+)
+```
 
 ## Development
 
@@ -32,7 +60,7 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/pnut.
+Bug reports and pull requests are welcome on GitHub at https://github.com/kaiwood/pnut-ruby.
 
 ## License
 
