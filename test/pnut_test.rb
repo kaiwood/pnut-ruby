@@ -6,9 +6,13 @@ include WebMock::API
 WebMock.enable!
 
 API_RESPONSE_STREAM = File.read("test/api_response_stream.txt")
+API_RESPONSE_STREAM_LIMITED = File.read("test/api_response_stream_only_7_posts.txt")
 
 stub_request(:get, "https://api.pnut.io/v0/posts/streams/global").
   to_return(status: 200, body: API_RESPONSE_STREAM, headers: {})
+
+stub_request(:get, "https://api.pnut.io/v0/posts/streams/global?since_id=436277").
+  to_return(status: 200, body: API_RESPONSE_STREAM_LIMITED, headers: {})
 
 class PnutTest < Minitest::Test
   def setup
@@ -34,5 +38,11 @@ class PnutTest < Minitest::Test
   def test_that_it_can_give_raw_responses_back
     assert_instance_of Array, @pnut.request("/posts/streams/global").data
     assert_instance_of String, @pnut.request("/posts/streams/global", raw_response: true)
+  end
+
+  def test_that_it_can_handle_additional_parameters
+    assert_equal 7, @pnut.request("/posts/streams/global?since_id=436277").data.size
+    assert_equal 7, @pnut.request("/posts/streams/global", params: {since_id: 436277}).data.size
+    assert_equal 7, @pnut.global(since_id: 436277).data.size
   end
 end
