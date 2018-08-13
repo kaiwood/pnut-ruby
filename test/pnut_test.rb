@@ -1,12 +1,4 @@
 require "test_helper"
-require "webmock"
-require "pry"
-include WebMock::API
-
-WebMock.enable!
-
-API_RESPONSE_STREAM = File.read("test/api_response_stream.txt")
-API_RESPONSE_STREAM_LIMITED = File.read("test/api_response_stream_only_7_posts.txt")
 
 stub_request(:get, "https://api.pnut.io/v0/posts/streams/global").
   to_return(status: 200, body: API_RESPONSE_STREAM, headers: {})
