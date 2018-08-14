@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    pnut (0.1.0)
+    pnut (0.1.2)
       addressable (~> 2.5)
       faraday
       webmock (~> 3.4)
