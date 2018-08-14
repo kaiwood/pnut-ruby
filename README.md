@@ -29,7 +29,7 @@ pnut = Pnut::Client.new
 pnut.global
 ```
 
-Check the docs for an overview to all implemented methods.
+Check the docs of this Gem for an overview of all implemented methods.
 
 If we didn't implement an endpoint yet, you can use the `request` method to send custom requests:
 
@@ -40,9 +40,16 @@ pnut = Pnut::Client.new
 pnut.request("/posts/streams/global")
 ```
 
-```ruby
-require "pnut"
+Most endpoints need a proper Bearer token for authorization. Simply initialize like this to get access:
 
+```ruby
+pnut = Pnut::Client.new(:authorization_token: "YOURTOKEN")
+pnut.unified
+```
+
+For POST, DELETE, etc. request, the method signature provides the following:
+
+```ruby
 pnut.request(
   "/channels/123/messages",
   method: "POST",
