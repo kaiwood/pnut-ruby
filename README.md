@@ -48,7 +48,7 @@ pnut = Pnut::Client.new
 pnut.request("/posts/streams/global")
 ```
 
-For POST, DELETE, etc. request, the method signature provides the following:
+For POST, DELETE, etc. request, the method signature provides the following, with the data parameter defaulting to JSON:
 
 ```ruby
 pnut.request(
@@ -57,6 +57,48 @@ pnut.request(
   data: {
     text: "Der Test[tm]"
   }
+)
+```
+
+As a more thorough example, one can request an AppStream access token (where the endpoint expects form-data instead of JSON) and get the body of the response unparsed as a string like this:
+
+```ruby
+pnut.request(
+  "/oauth/access_token",
+  json: false,
+  method: "POST",
+  raw_response: true,
+  data: {
+    client_id: "YOUR_CLIENT_ID",
+    client_secret: "YOUR_CLIENT_SECRET",
+    grant_type: "client_credentials"
+  }
+)
+```
+
+## App Streams
+
+We support a light abstraction over pnut's App Streams, standing on the shoulders of EventMachine and faye-websocket. Given you already have a valid app access token and created a stream with corresponding stream key, you can start it like this:
+
+```ruby
+require "pnut/app_stream"
+
+Pnut::AppStream.start(access_token: "…", stream_key: "…")
+```
+
+Having every stream message printed to STDOUT is not that useful in itself, therefor you can provide a custom handler to react to them yourself:
+
+```ruby
+require "pnut/app_stream"
+
+def my_handler(msg)
+  p JSON.parse(msg)
+end
+
+Pnut::AppStream.start(
+  access_token: "…",
+  stream_key: "…",
+  handler: method(my_handler)
 )
 ```
 

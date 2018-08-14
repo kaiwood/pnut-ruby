@@ -2,6 +2,7 @@
 
 require "bundler/setup"
 require "pnut"
+require "pnut/app_stream"
 
 @pnut = Pnut::Client.new(authorization_token: ENV["PNUT_TOKEN"])
 
