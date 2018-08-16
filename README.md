@@ -98,7 +98,7 @@ end
 Pnut::AppStream.start(
   access_token: "…",
   stream_key: "…",
-  handler: method(my_handler)
+  handler: method(:my_handler)
 )
 ```
 
