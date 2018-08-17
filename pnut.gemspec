@@ -22,7 +22,7 @@ Gem::Specification.new do |spec|
   spec.executables = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
   spec.require_paths = ["lib"]
 
-  spec.add_dependency "faraday"
+  spec.add_dependency "faraday", "~> 0.15"
   spec.add_dependency "webmock", "~> 3.4"
   spec.add_dependency "addressable", "~> 2.5"
   spec.add_dependency "eventmachine", "~> 1.2"
