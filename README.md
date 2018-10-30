@@ -91,14 +91,41 @@ Having every stream message printed to STDOUT is not that useful in itself, ther
 ```ruby
 require "pnut/app_stream"
 
-def my_handler(msg)
+def on_message(msg)
   p JSON.parse(msg)
 end
 
 Pnut::AppStream.start(
   access_token: "…",
   stream_key: "…",
-  handler: method(:my_handler)
+  on_message: method(:on_message)
+)
+```
+
+You can hook into the open and close events to if you want to (usefull for automatic reconnection etc.):
+
+```ruby
+Pnut::AppStream.start(
+  access_token: "…",
+  stream_key: "…",
+  on_open: method(:puts)
+  on_message: method(:puts)
+  on_close: method(:puts)
+)
+```
+
+## User Streams
+
+User streams are pretty much the same from this Gems perspective, except that you don't need to provide a stream_key. Don't forget to handle the first message that gives you your connection_id, as described in [pnut's api docs](https://pnut.io/docs/api/how-to/user-streams)
+
+```ruby
+require "pnut/user_stream"
+
+Pnut::UserStream.start(
+  access_token: "…",
+  on_open: method(:puts),
+  on_message: method(:puts),
+  on_close: method(:puts)
 )
 ```
 

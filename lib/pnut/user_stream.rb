@@ -2,17 +2,16 @@ require "eventmachine"
 require "faye/websocket"
 
 module Pnut
-  module AppStream
+  module UserStream
     extend self
 
     def start(access_token: nil,
-              stream_key: nil,
               on_open: nil,
               on_message: method(:puts),
               on_close: nil)
       EM.run do
         ws = Faye::WebSocket::Client.new(
-          "wss://stream.pnut.io/v0/app/stream?access_token=#{access_token}&key=#{stream_key}"
+          "wss://stream.pnut.io/v0/user?access_token=#{access_token}"
         )
 
         EM.add_periodic_timer 45 do
