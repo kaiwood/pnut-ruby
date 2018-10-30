@@ -21,7 +21,7 @@ class PnutTest < Minitest::Test
   end
 
   def test_for_meta_and_data_attributes
-    response = @pnut.global
+    response = @pnut.request("/posts/streams/global")
 
     assert_equal @parsed_api_response["meta"]["code"], response.meta.code
     assert_equal @parsed_api_response["data"][0]["id"], response.data[0].id
@@ -35,6 +35,5 @@ class PnutTest < Minitest::Test
   def test_that_it_can_handle_additional_parameters
     assert_equal 7, @pnut.request("/posts/streams/global?since_id=436277").data.size
     assert_equal 7, @pnut.request("/posts/streams/global", params: {since_id: 436277}).data.size
-    assert_equal 7, @pnut.global(since_id: 436277).data.size
   end
 end
