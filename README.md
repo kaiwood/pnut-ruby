@@ -102,7 +102,7 @@ Pnut::AppStream.start(
 )
 ```
 
-You can hook into the open and close events to if you want to (usefull for automatic reconnection etc.):
+If you want to, you can hook into the open and close events too (usefull for automatic reconnection etc.):
 
 ```ruby
 Pnut::AppStream.start(
