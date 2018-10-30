@@ -1,5 +1,3 @@
-# encoding: utf-8
-
 require "eventmachine"
 require "faye/websocket"
 
@@ -7,7 +5,11 @@ module Pnut
   module AppStream
     extend self
 
-    def start(access_token: nil, stream_key: nil, handler: method(:puts))
+    def start(access_token: nil,
+              stream_key: nil,
+              on_open: nil,
+              on_message: method(:puts),
+              on_close: nil)
       EM.run do
         ws = Faye::WebSocket::Client.new(
           "wss://stream.pnut.io/v0/app/stream?access_token=#{access_token}&key=#{stream_key}"
@@ -18,17 +20,15 @@ module Pnut
         end
 
         ws.on :open do |event|
-          p [:open]
-          ws.send("Hello, pnut!")
+          on_open.call(event) if on_open
         end
 
         ws.on :message do |event|
-          handler.call(event.data)
+          on_message.call(event.data) if on_message
         end
 
         ws.on :close do |event|
-          p [:close, event.code, event.reason]
-
+          on_close.call(event) if on_close
           ws = nil
         end
       end
