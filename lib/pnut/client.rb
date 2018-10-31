@@ -10,6 +10,26 @@ module Pnut
       @connection = Faraday.new("https://api.pnut.io/")
     end
 
+    def get(endpoint, params: nil)
+      request(endpoint, method: "GET", params: params)
+    end
+
+    def post(endpoint, params: nil, data: nil)
+      request(endpoint, method: "POST", params: params, data: data)
+    end
+
+    def put(endpoint, params: nil)
+      request(endpoint, method: "PUT", params: params)
+    end
+
+    def patch(endpoint, params: nil)
+      request(endpoint, method: "PATCH", params: params)
+    end
+
+    def delete(endpoint, params: nil)
+      request(endpoint, method: "DELETE", params: params)
+    end
+
     def request(endpoint, method: "GET", params: nil, data: nil, raw_response: false, json: true)
       prepared_endpoint = "/v0#{endpoint}"
 

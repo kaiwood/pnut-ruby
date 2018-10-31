@@ -1,10 +1,40 @@
 require "test_helper"
 
-stub_request(:get, "https://api.pnut.io/v0/posts/streams/global").
-  to_return(status: 200, body: API_RESPONSE_STREAM, headers: {})
+stub_request(:get, "https://api.pnut.io/v0/posts/streams/global")
+  .to_return(status: 200, body: API_RESPONSE_STREAM, headers: {})
 
-stub_request(:get, "https://api.pnut.io/v0/posts/streams/global?since_id=436277").
-  to_return(status: 200, body: API_RESPONSE_STREAM_LIMITED, headers: {})
+stub_request(:get, "https://api.pnut.io/v0/posts/streams/global?since_id=436277")
+  .to_return(status: 200, body: API_RESPONSE_STREAM_LIMITED, headers: {})
+
+stub_request(:get, "https://api.pnut.io/v0/test/route")
+  .to_return(status: 200, body: '{"meta": 200}', headers: {})
+
+stub_request(:get, "https://api.pnut.io/v0/test/route?test=1")
+  .to_return(status: 200, body: '{"meta": 200}', headers: {})
+
+stub_request(:post, "https://api.pnut.io/v0/test/route")
+  .to_return(status: 200, body: '{"meta": 200}', headers: {})
+
+stub_request(:post, "https://api.pnut.io/v0/test/route?test=1")
+  .to_return(status: 200, body: '{"meta": 200}', headers: {})
+
+stub_request(:put, "https://api.pnut.io/v0/test/route")
+  .to_return(status: 200, body: '{"meta": 200}', headers: {})
+
+stub_request(:put, "https://api.pnut.io/v0/test/route?test=1")
+  .to_return(status: 200, body: '{"meta": 200}', headers: {})
+
+stub_request(:patch, "https://api.pnut.io/v0/test/route")
+  .to_return(status: 200, body: '{"meta": 200}', headers: {})
+
+stub_request(:patch, "https://api.pnut.io/v0/test/route?test=1")
+  .to_return(status: 200, body: '{"meta": 200}', headers: {})
+
+stub_request(:delete, "https://api.pnut.io/v0/test/route")
+  .to_return(status: 200, body: '{"meta": 200}', headers: {})
+
+stub_request(:delete, "https://api.pnut.io/v0/test/route?test=1")
+  .to_return(status: 200, body: '{"meta": 200}', headers: {})
 
 class PnutTest < Minitest::Test
   def setup
@@ -35,5 +65,30 @@ class PnutTest < Minitest::Test
   def test_that_it_can_handle_additional_parameters
     assert_equal 7, @pnut.request("/posts/streams/global?since_id=436277").data.size
     assert_equal 7, @pnut.request("/posts/streams/global", params: {since_id: 436277}).data.size
+  end
+
+  def test_that_it_supports_http_get
+    assert_equal 200, @pnut.get("/test/route").meta
+    assert_equal 200, @pnut.get("/test/route", params: {test: 1}).meta
+  end
+
+  def test_that_it_supports_http_post
+    assert_equal 200, @pnut.post("/test/route").meta
+    assert_equal 200, @pnut.post("/test/route", params: {test: 1}).meta
+  end
+
+  def test_that_it_supports_http_put
+    assert_equal 200, @pnut.put("/test/route").meta
+    assert_equal 200, @pnut.put("/test/route", params: {test: 1}).meta
+  end
+
+  def test_that_it_supports_http_patch
+    assert_equal 200, @pnut.patch("/test/route").meta
+    assert_equal 200, @pnut.patch("/test/route", params: {test: 1}).meta
+  end
+
+  def test_that_it_supports_http_delete
+    assert_equal 200, @pnut.delete("/test/route").meta
+    assert_equal 200, @pnut.delete("/test/route", params: {test: 1}).meta
   end
 end
