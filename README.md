@@ -35,7 +35,7 @@ p response.data # data response, an array of the current posts
 Most endpoints need a proper Bearer token for authorization. Simply initialize like this to get access:
 
 ```ruby
-pnut = Pnut::Client.new(:authorization_token: "YOURTOKEN")
+pnut = Pnut::Client.new(authorization_token: "YOURTOKEN")
 pnut.unified
 ```
 
